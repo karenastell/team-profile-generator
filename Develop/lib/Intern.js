@@ -7,8 +7,12 @@ class Intern extends Employee{
      // github username 
      this.school = school; 
     }
-    getSchool(){}
+    getSchool(){
+        return this.school;
+    }
     // overridden to return "Intern"
-    getRole(){}
+    getRole(){
+        return "Intern"
+    }
 
 }

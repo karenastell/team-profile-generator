@@ -7,8 +7,12 @@ class Engineer extends Employee{
      // github username 
      this.github = github; 
     }
-    getGithub(){}
+    getGithub(){
+        return this.github;
+    }
     // overridden to return "Engineer"
-    getRole(){}
+    getRole(){
+        return "Engineer"
+    }
 
 }

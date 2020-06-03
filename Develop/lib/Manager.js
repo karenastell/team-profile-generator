@@ -7,6 +7,8 @@ class Manager extends Employee{
      this.officeNumber = officeNumber; 
     }
     // overridden to return "Manager"
-    getRole(){}
+    getRole(){
+        return "Manager"
+    }
 
 }
