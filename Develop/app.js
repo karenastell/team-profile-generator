@@ -11,7 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 // what will be used to display data after inquirer is done and everything is pushed into the array
-fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+// fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
 
 // is populated with information from the prompts about each team memeber
 const teamMembers = [];
@@ -42,18 +42,15 @@ const managerInfo = [
     name: "officeNumber",
     message: "What is your manager's office number?",
   },
-];
-
-const addMembers = [
   {
     type: "list",
     name: "role",
     message: "Who do you want to add next?",
-    choices: ["Engineer", "Intern", "None"],
+    choices: ["Engineer", "Intern", "No more memebers to add"],
   },
 ];
 
-const engineer = [
+const engineerInfo = [
   {
     type: "input",
     name: "name",
@@ -71,33 +68,84 @@ const engineer = [
   },
   {
     type: "input",
-    name: "gitHub",
-    message: "What is your engineer's gitHub username?",
+    name: "github",
+    message: "What is your engineer's GitHub username?",
+  },
+  {
+    type: "list",
+    name: "role",
+    message: "Who do you want to add next?",
+    choices: ["Engineer", "Intern", "No more memebers to add"],
   },
 ];
 
-const intern = [
-    {
-        type: "input",
-        name: "name",
-        message: "Enter intern's name: ",
-      },
-      {
-        type: "input",
-        name: "id",
-        message: "What is your intern's ID?",
-      },
-      {
-        type: "input",
-        name: "email",
-        message: "What is your intern's email?",
-      },
-      {
-          type: "input",
-          name: "school",
-          message: "Where does your inter go to school?"
-      }
-]
+const internInfo = [
+  {
+    type: "input",
+    name: "name",
+    message: "Enter intern's name: ",
+  },
+  {
+    type: "input",
+    name: "id",
+    message: "What is your intern's ID?",
+  },
+  {
+    type: "input",
+    name: "email",
+    message: "What is your intern's email?",
+  },
+  {
+    type: "input",
+    name: "school",
+    message: "Where does your inter go to school?",
+  },
+  {
+    type: "list",
+    name: "role",
+    message: "Who do you want to add next?",
+    choices: ["Engineer", "Intern", "No more memebers to add"],
+  },
+];
+
+// asks manager questions then calls checkRole
+const startTeam = () => {
+  inquirer.prompt(managerInfo).then((answers) => {
+    console.log(answers);
+    checkRole(answers);
+  });
+};
+
+
+// asks engineer questions
+const addEngineer = () => {
+  inquirer.prompt(engineerInfo).then((answers) => {
+    console.log(answers);
+    checkRole(answers)
+  });
+};
+
+
+// asks intern questions
+const addIntern = () => {
+  inquirer.prompt(internInfo).then((answers) => {
+    console.log(answers);
+    checkRole(answers);
+  });
+};
+
+
+// checks the name of the role you are going to add next
+// runs the cooresponding function for the role
+const checkRole = (answers) => {
+  if (answers.role === "Engineer") {
+    addEngineer();
+  } else if (answers.role === "Intern") {
+    addIntern();
+  } else {
+    return;
+  }
+};
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -118,3 +166,4 @@ const intern = [
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
+startTeam();
