@@ -10,8 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-// what will be used to display data after inquirer is done and everything is pushed into the array
-// fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+
 
 // is populated with information from the prompts about each team member
 const teamMembers = [];
@@ -107,7 +106,11 @@ const internInfo = [
 const addManager = () => {
   inquirer.prompt(managerInfo).then((answers) => {
     console.log(answers);
-    pushToArray(answers);
+
+   
+    const manager =  new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+
+    pushToArray(manager);
     console.log("ARRAY", teamMembers);
     addAnother();
   });
@@ -119,7 +122,11 @@ const addManager = () => {
 const addEngineer = () => {
   inquirer.prompt(engineerInfo).then((answers) => {
     console.log(answers);
-    pushToArray(answers);
+   
+  
+const engineer =  new Engineer(answers.name, answers.id, answers.email, answers.github);
+   
+    pushToArray(engineer);
     addAnother();
   });
 };
@@ -128,8 +135,13 @@ const addEngineer = () => {
 const addIntern = () => {
   inquirer.prompt(internInfo).then((answers) => {
     console.log(answers);
-    pushToArray(answers);
+
+    
+    const intern =  new Intern(answers.name, answers.id, answers.email, answers.school);
+
+    pushToArray(intern);
     addAnother();
+
   });
 };
 
@@ -143,7 +155,7 @@ const addAnother = ()=>{
     } else if (answers.role === "Intern") {
       addIntern();
     } else {
-      return;
+      buildTeam();
     }
   })
 }
@@ -155,6 +167,11 @@ const pushToArray = (answers) => {
   // console.log(teamMembers);
   
 };
+
+const buildTeam = ()=>{
+  // what will be used to display data after inquirer is done and everything is pushed into the array
+fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+}
 
 addManager();
 
