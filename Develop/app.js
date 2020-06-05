@@ -13,7 +13,7 @@ const render = require("./lib/htmlRenderer");
 // what will be used to display data after inquirer is done and everything is pushed into the array
 // fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
 
-// is populated with information from the prompts about each team memeber
+// is populated with information from the prompts about each team member
 const teamMembers = [];
 
 // makes the HTML with the teamMember info from the teamMember array
@@ -42,13 +42,18 @@ const managerInfo = [
     name: "officeNumber",
     message: "What is your manager's office number?",
   },
-  {
+
+];
+
+
+const addMember = [
+    {
     type: "list",
     name: "role",
     message: "Who do you want to add next?",
-    choices: ["Engineer", "Intern", "No more memebers to add"],
+    choices: ["Engineer", "Intern", "No more members to add"],
   },
-];
+]
 
 const engineerInfo = [
   {
@@ -71,12 +76,7 @@ const engineerInfo = [
     name: "github",
     message: "What is your engineer's GitHub username?",
   },
-  {
-    type: "list",
-    name: "role",
-    message: "Who do you want to add next?",
-    choices: ["Engineer", "Intern", "No more memebers to add"],
-  },
+
 ];
 
 const internInfo = [
@@ -100,52 +100,64 @@ const internInfo = [
     name: "school",
     message: "Where does your inter go to school?",
   },
-  {
-    type: "list",
-    name: "role",
-    message: "Who do you want to add next?",
-    choices: ["Engineer", "Intern", "No more memebers to add"],
-  },
+
 ];
 
 // asks manager questions then calls checkRole
-const startTeam = () => {
+const addManager = () => {
   inquirer.prompt(managerInfo).then((answers) => {
     console.log(answers);
-    checkRole(answers);
+    pushToArray(answers);
+    console.log("ARRAY", teamMembers);
+    addAnother();
   });
 };
+
 
 
 // asks engineer questions
 const addEngineer = () => {
   inquirer.prompt(engineerInfo).then((answers) => {
     console.log(answers);
-    checkRole(answers)
+    pushToArray(answers);
+    addAnother();
   });
 };
-
 
 // asks intern questions
 const addIntern = () => {
   inquirer.prompt(internInfo).then((answers) => {
     console.log(answers);
-    checkRole(answers);
+    pushToArray(answers);
+    addAnother();
   });
 };
 
-
+// prompts the user asking if they want to add another member
 // checks the name of the role you are going to add next
 // runs the cooresponding function for the role
-const checkRole = (answers) => {
-  if (answers.role === "Engineer") {
-    addEngineer();
-  } else if (answers.role === "Intern") {
-    addIntern();
-  } else {
-    return;
-  }
+const addAnother = ()=>{
+  inquirer.prompt(addMember).then((answers)=>{
+    if (answers.role === "Engineer") {
+      addEngineer();
+    } else if (answers.role === "Intern") {
+      addIntern();
+    } else {
+      return;
+    }
+  })
+}
+
+
+// pushes the answers into the teamMembers array which is then called in the render function to push all the info onto the HTML
+const pushToArray = (answers) => {
+  teamMembers.push(answers);
+  // console.log(teamMembers);
+  
 };
+
+addManager();
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
@@ -166,4 +178,4 @@ const checkRole = (answers) => {
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
-startTeam();
+
