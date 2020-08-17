@@ -19,3 +19,8 @@ This application was run through multiple tests using Jest.
 
 Before the use of this application, the user must run `npm install` to install the dependencies needed.
 
+## Video of Working Application
+
+![Team Profile Generator](./team-generator.png)
+
+[Link to Video](https://drive.google.com/file/d/1cSEsNUK5wDgeHgtlzcjMSZDQAx0tv69_/view)
